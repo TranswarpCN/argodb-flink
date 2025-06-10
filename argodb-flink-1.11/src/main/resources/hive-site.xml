@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>hive.decimal.wrdecimal.enabled</name>
+    <value>false</value>
+  </property>
+
+  <property>
+    <name>ngmr.tddms2.mastergroup</name>
+    <value>172.18.120.28:9640,172.18.120.29:9640,172.18.120.30:9640</value>
+  </property>
+
+</configuration>

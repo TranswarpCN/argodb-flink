@@ -1,0 +1,62 @@
+image: 172.16.1.99/transwarp/base/builder:centos7_docker17
+
+before_script:
+  - export TIME=`date "+%Y-%m-%d-%H-%M-%S"`
+  - export IMAGE_TAG="${CI_COMMIT_REF_NAME}-${TIME}-${CI_COMMIT_SHA}"
+  - export JDK17_PATH=/usr/java/jdk1.7.0_71
+  - export JDK18_PATH=/usr/jdk-8u131-linux-x64.tar/jdk1.8.0_131
+  - export MAVEN_OPTS="$MAVEN_OPTS -XX:MaxPermSize=2048m"
+  - export JAVA_HOME=${JDK18_PATH}
+  - export PATH=$JAVA_HOME/bin:$PATH
+  - export DOCKER_REPO_URL="172.16.1.99"
+  - export BUILDER="postcommit"
+  - source init.sh 2>&1 1>/dev/null
+
+stages:
+  - build
+  - image_build
+
+build:
+  stage: build
+  script:
+    - git clone http://gitlab-ci-token:${CI_JOB_TOKEN}@172.16.1.41:10080/InfraTools/base_project.git base_project
+    - cp base_project/settings_postcommit.xml /root/.m2/settings.xml || true
+    - mvn clean install -DskipTests
+  artifacts:
+    when: always
+    name: argodb-flink-package
+    paths:
+      - target/argodb-flink-*.jar
+    expire_in: 1 day
+  tags:
+    - k8s
+
+
+image_build:
+  stage: image_build
+  script:
+    - startdocker.sh &
+    - sleep 30s
+    - trap "kill -9 $(ps aux | grep dockerd | grep -v grep | awk '{print $2}')" ERR  # kill startdocker.sh on script execution error
+    - git clone http://gitlab-ci-token:${CI_JOB_TOKEN}@172.16.1.41:10080/InfraTools/base_project.git base_project
+    - cp base_project/settings_postcommit.xml /root/.m2/settings.xml || true
+    - mkdir -p ~/.docker && cp /root/.docker/config.json ~/.docker
+    - mvn clean install -DskipTests
+    - find . -name "argodb-flink-*.jar" | grep -v test | grep -v shaded | xargs -I file cp file docker/
+    - cd docker && docker build -t ${DOCKER_REPO_URL}/${BUILDER}/argodb-flink:${IMAGE_TAG} -f Dockerfile .
+    - docker push ${DOCKER_REPO_URL}/${BUILDER}/argodb-flink:${IMAGE_TAG}
+    - docker tag ${DOCKER_REPO_URL}/${BUILDER}/argodb-flink:${IMAGE_TAG} ${DOCKER_REPO_URL}/${BUILDER}/argodb-flink:${CI_COMMIT_REF_NAME}
+    - docker push ${DOCKER_REPO_URL}/${BUILDER}/argodb-flink:${CI_COMMIT_REF_NAME}
+    - echo "=======================argodb flink image is:${DOCKER_REPO_URL}/${BUILDER}/argodb-flink:${CI_COMMIT_REF_NAME}======="
+    - echo "=======================argodb flink image is:${DOCKER_REPO_URL}/${BUILDER}/argodb-flink:${IMAGE_TAG}======="
+    - ps aux | grep dockerd | grep -v "grep" |  awk '{print $2}' | xargs kill -9
+  only:
+    - master@HolodeskDev/argodb-flink
+    - develop@HolodeskDev/argodb-flink
+    - /^transwarp-.*$/@HolodeskDev/argodb-flink
+    - /^\d+\.\d+$/@HolodeskDev/argodb-flink
+    - /^POC-.*$/@HolodeskDev/argodb-flink
+    - triggers@HolodeskDev/argodb-flink
+    - api
+  tags:
+    - k8s

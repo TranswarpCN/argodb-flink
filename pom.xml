@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.transwarp.holodesk</groupId>
+    <artifactId>argodb</artifactId>
+    <version>develop</version>
+  </parent>
+
+  <artifactId>argodb-flink</artifactId>
+  <name>argodb-flink</name>
+  <version>develop</version>
+
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>argodb-flink-1.13</module>
+    <module>argodb-flink-1.14</module>
+    <module>argodb-flink-1.15</module>
+    <module>argodb-flink-1.17</module>
+    <module>argodb-flink-common</module>
+    <module>flink-connector-jdbc-parent</module> <!--  flink1.17 jdbc -->
+  </modules>
+
+  <properties>
+    <scala.binary.version>2.12</scala.binary.version>
+    <lombok_version>1.18.2</lombok_version>
+    <log4j_version>1.2.17</log4j_version>
+    <shade.base>io.transwarp</shade.base>
+    <scala.version>2.10.4</scala.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok_version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.transwarp.shiva2</groupId>
+      <artifactId>shiva1-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp.shiva</groupId>
+      <artifactId>shiva-client-shade</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>inceptor-common</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.transwarp</groupId>
+      <artifactId>inceptor-driver-shade</artifactId>
+      <version>1.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>slf4j-impl</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>io.transwarp.holodesk</groupId>
+      <artifactId>argodb-sink-client</artifactId>
+      <version>develop</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.transwarp.holodesk</groupId>
+      <artifactId>argodb-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp.holodesk</groupId>
+      <artifactId>argodb-sink</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp.holodesk</groupId>
+      <artifactId>argodb-inceptor</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-client</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp.shiva</groupId>
+      <artifactId>shiva-client-shade</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp.shiva2</groupId>
+      <artifactId>shiva1-client</artifactId>
+      <!--<version>2.3-202306261502</version>-->
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp.nucleon</groupId>
+      <artifactId>inceptor-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp.nucleon</groupId>
+      <artifactId>inceptor-holodesk</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>inceptor-exec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp</groupId>
+      <artifactId>inceptor-engine</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>slf4j-impl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-client</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp</groupId>
+      <artifactId>inceptor-jdbcdrive</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>slf4j-impl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-client</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.transwarp</groupId>
+      <artifactId>inceptor-batch-operator</artifactId>
+    </dependency>
+  </dependencies>
+</project>
