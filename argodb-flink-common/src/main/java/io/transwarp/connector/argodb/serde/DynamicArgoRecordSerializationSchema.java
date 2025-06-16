@@ -27,10 +27,10 @@ public class DynamicArgoRecordSerializationSchema implements ArgoDBRecordSeriali
 
 
   public DynamicArgoRecordSerializationSchema(
-    DataType physicalDataType,
-    SerializationSchema<RowData> valueSerialization,
-    RowData.FieldGetter[] valueFieldGetters,
-    boolean upsertMode) {
+      DataType physicalDataType,
+      SerializationSchema<RowData> valueSerialization,
+      RowData.FieldGetter[] valueFieldGetters,
+      boolean upsertMode) {
     this.physicalDataType = physicalDataType;
     this.valueSerialization = valueSerialization;
     this.valueFieldGetters = valueFieldGetters;

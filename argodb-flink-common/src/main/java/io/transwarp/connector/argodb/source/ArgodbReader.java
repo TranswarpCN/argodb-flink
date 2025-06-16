@@ -68,11 +68,6 @@ public class ArgodbReader {
 
     RowSetElement[] rowSetElements = new RowSetElement[rowSets.length];
 
-    for (int i = 0; i < rowSets.length; i++) {
-//      rowSetElements[i] = RowSetUtilsShiva2.getSuitableRowSet(table, readOptions,
-//        shivaClient, rowSets[i], null, sectionId);
-    }
-
     PurePlainScanner scanner = new PurePlainScanner(readOptions, rowSetElements);
     return scanner.newScanRowReferenceIterator();
   }

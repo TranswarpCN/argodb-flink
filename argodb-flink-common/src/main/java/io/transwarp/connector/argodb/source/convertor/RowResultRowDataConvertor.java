@@ -22,8 +22,8 @@ public class RowResultRowDataConvertor implements RowResultConvertor<RowData> {
   private final RowType rowTypes;
 
   public RowResultRowDataConvertor(
-    int[] cols,
-    DataType physicalDataType) {
+      int[] cols,
+      DataType physicalDataType) {
     this.cols = cols;
     rowTypes = (RowType) physicalDataType.getLogicalType();
   }
