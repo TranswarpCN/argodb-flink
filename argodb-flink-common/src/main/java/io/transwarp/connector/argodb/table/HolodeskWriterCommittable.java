@@ -38,15 +38,4 @@ class HolodeskWriterCommittable {
     return new HolodeskWriterCommittable(transaction, shivaClient);
   }
 
-  public void setTransactionalId(Long transactionalId) {
-    this.transactionalId = transactionalId;
-  }
-
-  public void setShivaClient(ShivaClient shivaClient) {
-    this.shivaClient = shivaClient;
-  }
-
-  public void setTransaction(ShivaTransaction transaction) {
-    this.transaction = transaction;
-  }
 }

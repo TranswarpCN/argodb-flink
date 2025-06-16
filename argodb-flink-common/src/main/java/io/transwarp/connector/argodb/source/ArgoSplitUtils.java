@@ -68,13 +68,9 @@ public class ArgoSplitUtils implements AutoCloseable {
     this.tableName = tableInfo.get(Props.TABLE_KEY);
     this.partType = PartitionType.valueOf(tableInfo.get(Props.PART_TYPE));
 
-    // todo
-//        this.tddmsMasterGroup = "172.18.120.33:39630,172.18.120.32:39630,172.18.120.31:39630";
-
     tddmsClient = ShivaEnv.getShiva2Client(this.tddmsMasterGroup);
     holoClient = ShivaEnv.getHoloClient(this.tddmsMasterGroup);
     tddmsTable = holoClient.openTable(tableName);
-//    holoTable = TableUtilitiesShiva2.getHolodeskTable(tddmsTable);
 
     this.argoScanInfo = argoScanInfo;
   }
@@ -203,42 +199,6 @@ public class ArgoSplitUtils implements AutoCloseable {
     }
 
   }
-
-//    private SGFilterContainer getSGFilters(Column[] holoColumns, PartitionType partType, List<String> partKeys) throws Exception {
-//        TreeVisitor argodbOperatorPruner = new ArgodbOperatorPruner(SUPPORTED_OPERATORS);
-//        ArgodbSGFilterBuilder argodbSGFilterBuilder = new ArgodbSGFilterBuilder(holoColumns, partType, partKeys);
-//
-//        Node root = new FilterParser().parse(context.getFilterString());
-//        TRAVERSER.traverse(root, argodbOperatorPruner, argodbSGFilterBuilder);
-//
-//        if (argodbSGFilterBuilder.containUnsupportedPattern()) {
-//            LOGGER.warn("[ARGODB] SG filters have unsupported pattern, degenerate to full table scan !");
-//            return null;
-//        }
-//
-//        // debug info
-//        if (LOGGER.isDebugEnabled() && !argodbSGFilterBuilder.containUnsupportedPattern()) {
-//            List<SGAndFilterList> andFilterList = argodbSGFilterBuilder.getSgAndFilterList();
-//            for (int i = 0; i < andFilterList.size(); ++i) {
-//                LOGGER.debug("[ARGODB] And SG filter group: no.[{}]", i);
-//                SGAndFilterList sgAndFilterList = andFilterList.get(i);
-//                Map<SGNode, SGFilter> sgFilterMap = scala.collection.JavaConverters.asJavaMapConverter(sgAndFilterList.getFilters()).asJava();
-//                for (Map.Entry<SGNode, SGFilter> sgFilterEntry : sgFilterMap.entrySet()) {
-//                    if (sgFilterEntry.getKey() instanceof SGColumn) {
-//                        LOGGER.debug("[ARGODB] SG filter column: [{}], conditions: [{}]",
-//                                ((SGColumn) sgFilterEntry.getKey()).getSGColumnName(), sgFilterEntry.getValue().toString());
-//                    }
-//                }
-//            }
-//        }
-//
-//        // generate result
-//        SGFilterContainer filterContainer = new SGFilterContainer();
-//        for (SGAndFilterList andFilterList : argodbSGFilterBuilder.getSgAndFilterList()) {
-//            filterContainer.or(andFilterList);
-//        }
-//        return filterContainer;
-//    }
 
   @Override
   public void close() throws Exception {

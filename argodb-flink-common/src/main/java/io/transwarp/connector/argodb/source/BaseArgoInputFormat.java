@@ -36,9 +36,6 @@ import java.util.List;
 @PublicEvolving
 public abstract class BaseArgoInputFormat<T> extends RichInputFormat<T, ArgoInputSplit> implements ResultTypeQueryable<T> {
 
-  private final Logger log = LoggerFactory.getLogger(getClass());
-
-  private List<String> tableProjections;
 
   private transient ArgodbReader argoReader;
   private transient ArgoReaderIterator<T> resultIterator;

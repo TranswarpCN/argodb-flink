@@ -34,10 +34,6 @@ public class ArgoRowDataInputFormat extends BaseArgoInputFormat<RowData> {
     super(sourceConfig, rowResultConvertor, filters, projectedFields, argoScanInfo);
   }
 
-  public ArgoRowDataInputFormat(ArgoSourceConfig sourceConfig, RowResultConvertor<RowData> rowResultConvertor, List<ResolvedExpression> filters, int[] projectedFields) {
-    super(sourceConfig, rowResultConvertor, filters, projectedFields);
-  }
-
 
   @Override
   public TypeInformation<RowData> getProducedType() {

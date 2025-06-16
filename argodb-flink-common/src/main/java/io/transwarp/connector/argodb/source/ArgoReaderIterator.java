@@ -30,8 +30,6 @@ public class ArgoReaderIterator<T> implements Serializable {
   private final RowResultConvertor<T> rowResultConvertor;
   public RowResultIterator rowIterator;
 
-  protected RowReferenceIterator rowReferenceIterator;
-
   public ArgoReaderIterator(RowResultConvertor<T> rowResultConvertor) {
     this.rowResultConvertor = rowResultConvertor;
   }

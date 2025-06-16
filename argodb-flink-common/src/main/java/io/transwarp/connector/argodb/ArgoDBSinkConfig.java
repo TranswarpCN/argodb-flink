@@ -10,11 +10,9 @@ import java.io.Serializable;
  */
 public class ArgoDBSinkConfig implements Serializable {
   private static final long serialVersionUID = 1L;
-  // url 是连接 metastore的连接, 用来获取quark中的table信息. 参考值: jdbc:hive2://localhost:10000/default
   @Getter
   private final String url;
 
-  // shiva连接地址, 参考值: 172.18.120.32:29630,172.18.120.33:29630,172.18.120.34:29630
   @Getter
   private final String masterGroup;
 
@@ -23,7 +21,6 @@ public class ArgoDBSinkConfig implements Serializable {
   @Getter
   private final int autoFlushInterval;
 
-  // 在quark中创建表时定义的表名, 需要带上数据库名, 参考值 default.flink_holo
   @Getter
   private final String tableName;
 
