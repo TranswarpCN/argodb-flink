@@ -8,8 +8,6 @@ import org.apache.flink.annotation.Internal;
 @Getter
 @Internal
 public class HolodeskWriterState {
-  private final String transactionalIdPrefix = "argodb-sink";
-
 
   private Long transactionalId;
 
@@ -35,17 +33,5 @@ public class HolodeskWriterState {
       + transactionalId
       + '\''
       + '}';
-  }
-
-  public void setTransactionalId(Long transactionalId) {
-    this.transactionalId = transactionalId;
-  }
-
-  public void setShivaClient(ShivaClient shivaClient) {
-    this.shivaClient = shivaClient;
-  }
-
-  public void setTransaction(ShivaTransaction transaction) {
-    this.transaction = transaction;
   }
 }

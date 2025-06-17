@@ -17,7 +17,7 @@ public class ArgodbRecordSerializationSchemaBuilder<IN> {
 
 
   public <T extends IN> ArgodbRecordSerializationSchemaBuilder<T> setValueSerializationSchema(
-    SerializationSchema<T> valueSerializationSchema) {
+      SerializationSchema<T> valueSerializationSchema) {
     checkValueSerializerNotSet();
     ArgodbRecordSerializationSchemaBuilder<T> self = self();
     self.valueSerializationSchema = checkNotNull(valueSerializationSchema);
@@ -30,7 +30,7 @@ public class ArgodbRecordSerializationSchemaBuilder<IN> {
   }
 
   public <T extends IN> ArgodbRecordSerializationSchemaBuilder<T> setArgodbValueSerializer(
-    Class<? extends ArgodbSerializer<? super T>> valueSerializer) {
+      Class<? extends ArgodbSerializer<? super T>> valueSerializer) {
     checkValueSerializerNotSet();
     ArgodbRecordSerializationSchemaBuilder<T> self = self();
     self.valueSerializationSchema = new ArgodbSerializerWrapper<>();
@@ -39,11 +39,11 @@ public class ArgodbRecordSerializationSchemaBuilder<IN> {
 
   public <T extends IN, S extends ArgodbSerializer<? super T>>
   ArgodbRecordSerializationSchemaBuilder<T> setKafkaValueSerializer(
-    Class<S> valueSerializer, Map<String, String> configuration) {
+      Class<S> valueSerializer, Map<String, String> configuration) {
     checkValueSerializerNotSet();
     ArgodbRecordSerializationSchemaBuilder<T> self = self();
     self.valueSerializationSchema =
-      new ArgodbSerializerWrapper<>();
+        new ArgodbSerializerWrapper<>();
     return self;
   }
 
@@ -57,19 +57,18 @@ public class ArgodbRecordSerializationSchemaBuilder<IN> {
   }
 
   private static class ArgodbRecordSerializationSchemaWrapper<IN>
-    implements ArgoDBRecordSerializationSchema<IN> {
+      implements ArgoDBRecordSerializationSchema<IN> {
     private final SerializationSchema<? super IN> valueSerializationSchema;
 
     ArgodbRecordSerializationSchemaWrapper(
-      SerializationSchema<? super IN> valueSerializationSchema) {
+        SerializationSchema<? super IN> valueSerializationSchema) {
       this.valueSerializationSchema = valueSerializationSchema;
     }
 
 
     @Override
     public byte[][] serialize(
-      IN element, Long timestamp) {
-      final byte[] value = valueSerializationSchema.serialize(element);
+        IN element, Long timestamp) {
       return null;
     }
 

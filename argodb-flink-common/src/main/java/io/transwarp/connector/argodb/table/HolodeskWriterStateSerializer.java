@@ -43,13 +43,8 @@ class HolodeskWriterStateSerializer implements SimpleVersionedSerializer<Holodes
   public byte[] serialize(HolodeskWriterState state) throws IOException {
     try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
          final DataOutputStream out = new DataOutputStream(baos)) {
-
-//            byte[] transactionPB = state.getTransaction().serializeToTokenPB().toByteArray();
-
       out.writeLong(state.getTransactionalId());
       out.writeUTF(state.getShivaClient().getShiva2Client().options().masterGroup);
-//            out.writeInt(transactionPB.length);
-//            out.write(transactionPB);
 
       out.flush();
       String message = MessageFormat.format("[ARGODB] store Committable when checkpoint {0}", state.getTransactionalId());

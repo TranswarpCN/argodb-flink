@@ -53,8 +53,7 @@ public class ArgodbReader {
     String tableId = split.splitContexts()[0].getTableId();
     if (split.attachment() instanceof ScanTaskAttachment) {
       this.rowReferenceIterator = scanPerfTable(
-        tddmsClient, holoClient, tableId, partition.getReadOptions(), rowSets,
-        ((ScanTaskAttachment) split.attachment()).sectionId()
+        partition.getReadOptions(), rowSets
       );
       this.rowResultIterator = ConvertRowReferenceIteratorToRowResultIterator.newRowResultIterator(this.rowReferenceIterator);
     } else {
@@ -63,15 +62,8 @@ public class ArgodbReader {
     return true;
   }
 
-  private RowReferenceIterator scanPerfTable(ShivaClient shivaClient, HoloClient holoClient, String tableId, ReadOptions readOptions, RowSet[] rowSets, int sectionId) throws Exception {
-    Table table = holoClient.openTableById(tableId);
-
+  private RowReferenceIterator scanPerfTable(ReadOptions readOptions, RowSet[] rowSets) throws Exception {
     RowSetElement[] rowSetElements = new RowSetElement[rowSets.length];
-
-    for (int i = 0; i < rowSets.length; i++) {
-//      rowSetElements[i] = RowSetUtilsShiva2.getSuitableRowSet(table, readOptions,
-//        shivaClient, rowSets[i], null, sectionId);
-    }
 
     PurePlainScanner scanner = new PurePlainScanner(readOptions, rowSetElements);
     return scanner.newScanRowReferenceIterator();
@@ -79,19 +71,21 @@ public class ArgodbReader {
 
   public ArgoInputSplit[] createInputSplits() throws Exception {
 
-    ArgoSplitUtils argoSplitUtils = new ArgoSplitUtils();
+    try (ArgoSplitUtils argoSplitUtils = new ArgoSplitUtils()) {
+      argoSplitUtils.init(argoSourceConfig, argoScanInfo);
 
-    argoSplitUtils.init(argoSourceConfig, argoScanInfo);
+      List<ArgoTablePartition> splits = argoSplitUtils.getPartitions();
 
-    List<ArgoTablePartition> splits = argoSplitUtils.getPartitions();
+      ArgoInputSplit[] argoInputSplits = new ArgoInputSplit[splits.size()];
 
-    ArgoInputSplit[] argoInputSplits = new ArgoInputSplit[splits.size()];
-
-    for (int i = 0; i < splits.size(); i++) {
-      ArgoInputSplit argoInputSplit = new ArgoInputSplit(i, null);
-      argoInputSplit.setArgoTablePartitionSplits(new ArgoTablePartitionSplits(splits.get(i)));
-      argoInputSplits[i] = argoInputSplit;
+      for (int i = 0; i < splits.size(); i++) {
+        ArgoInputSplit argoInputSplit = new ArgoInputSplit(i, null);
+        argoInputSplit.setArgoTablePartitionSplits(new ArgoTablePartitionSplits(splits.get(i)));
+        argoInputSplits[i] = argoInputSplit;
+      }
+      return argoInputSplits;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-    return argoInputSplits;
   }
 }
