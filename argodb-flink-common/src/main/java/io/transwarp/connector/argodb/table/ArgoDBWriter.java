@@ -282,22 +282,11 @@ public class ArgoDBWriter<IN> implements StatefulSink.StatefulSinkWriter<IN, Hol
 
   @Override
   public void write(IN input, Context context) throws IOException, InterruptedException {
-    // if holo
-    // if rk
-
     try {
       writeClient.insert(ArgoDB2Utils.convertToSinkRow(Collections.singletonList(new ArgoDBRow(recordSerializer.serialize(input)))));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-
-//        try {
-//            getTable(flinkArgoDBConfig.getTableName()).getWriteClient().upsert(ArgoDB2Utils.convertToSinkRow(Collections.singletonList(new ArgoDBRow(parseRowData((RowData) input)))));
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
-    //if delete
   }
 
   @Override
@@ -351,7 +340,6 @@ public class ArgoDBWriter<IN> implements StatefulSink.StatefulSinkWriter<IN, Hol
     //begin transaction
     if (!isRK) {
       try {
-//                openNewTxn();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
@@ -391,9 +379,6 @@ public class ArgoDBWriter<IN> implements StatefulSink.StatefulSinkWriter<IN, Hol
   @Override
   public Collection<HolodeskWriterCommittable> prepareCommit() throws IOException, InterruptedException {
     if (true) {
-//            List<HolodeskWriterCommittable> committables = Collections.singletonList(HolodeskWriterCommittable.of(tddms2Client, rwTransaction));
-//            LOG.debug("Committing {} committables.", committables);
-//            return committables;
       return null;
     }
     return Collections.emptyList();

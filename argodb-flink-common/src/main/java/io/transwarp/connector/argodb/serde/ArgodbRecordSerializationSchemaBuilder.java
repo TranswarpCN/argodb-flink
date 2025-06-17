@@ -69,7 +69,6 @@ public class ArgodbRecordSerializationSchemaBuilder<IN> {
     @Override
     public byte[][] serialize(
         IN element, Long timestamp) {
-      final byte[] value = valueSerializationSchema.serialize(element);
       return null;
     }
 

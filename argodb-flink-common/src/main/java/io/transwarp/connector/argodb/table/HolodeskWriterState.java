@@ -8,8 +8,6 @@ import org.apache.flink.annotation.Internal;
 @Getter
 @Internal
 public class HolodeskWriterState {
-  private final String transactionalIdPrefix = "argodb-sink";
-
 
   private Long transactionalId;
 

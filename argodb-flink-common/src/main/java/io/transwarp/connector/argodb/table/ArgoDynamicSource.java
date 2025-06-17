@@ -93,20 +93,6 @@ public class ArgoDynamicSource implements ScanTableSource, SupportsProjectionPus
     return InputFormatProvider.of(inputFormat);
   }
 
-//    private SGFilterContainer buildArgoScanInfoFilters() {
-//        if (CollectionUtils.isNotEmpty(this.filters)) {
-//            for (ResolvedExpression filter : this.filters) {
-//
-//                Optional<KuduFilterInfo> kuduFilterInfo = KuduTableUtils.toKuduFilterInfo(filter);
-//                if (kuduFilterInfo != null && kuduFilterInfo.isPresent()) {
-//                    this.predicates.add(kuduFilterInfo.get());
-//                }
-//
-//            }
-//        }
-//        return null;
-//    }
-
   private RowData.FieldGetter[] getFieldGetters(
     List<LogicalType> physicalChildren, int[] keyProjection) {
     return Arrays.stream(keyProjection)
